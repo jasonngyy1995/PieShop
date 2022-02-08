@@ -7,9 +7,21 @@
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Controllers\" />
+    <None Remove="View\" />
+    <None Remove="View\Pie\" />
+    <None Remove="ViewModels\" />
+    <None Remove="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Pie\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="wwwroot\Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Content\" />
   </ItemGroup>
 </Project>

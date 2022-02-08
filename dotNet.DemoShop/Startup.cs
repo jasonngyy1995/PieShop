@@ -35,6 +35,7 @@ namespace dotNet.DemoShop
             }
 
             app.UseHttpsRedirection();
+            // middleware for serving static files and files in wwwroot
             app.UseStaticFiles();
 
             app.UseRouting();

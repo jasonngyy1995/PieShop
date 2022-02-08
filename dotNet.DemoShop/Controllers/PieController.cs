@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNet.DemoShop.Models;
+using dotNet.DemoShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,7 +23,9 @@ namespace dotNet.DemoShop.Controllers
 
         public ViewResult List()
         {
-            return View(_pieReopository.AllPies);
+            PiesListViewModel piesListViewModel = new PiesListViewModel();
+            piesListViewModel.Pies = _pieReopository.AllPies;
+            return View(piesListViewModel);
         }
     }
 }

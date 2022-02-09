@@ -6,6 +6,8 @@ using dotNet.DemoShop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,16 +15,28 @@ namespace dotNet.DemoShop
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        /* appsetting gets read out and arrives in an instance of IConfiguration
+           which get passed into the application via constructor injection */
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                );
             // add all the services will be used in the application
             services.AddControllersWithViews();
             // method to register a service with its interfaces into the services collection
             // Create an instance per request, which remains active throughout the entire request
-            services.AddScoped<IPieRepository, MockPieRepository>();
-            services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+            services.AddScoped<IPieRepository, PieRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
          
         }
 
@@ -31,6 +45,7 @@ namespace dotNet.DemoShop
         {
             if (env.IsDevelopment())
             {
+                // middleware for debugging messages 
                 app.UseDeveloperExceptionPage();
             }
 

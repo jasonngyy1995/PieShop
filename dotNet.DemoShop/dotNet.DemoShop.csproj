@@ -13,6 +13,17 @@
     <None Remove="Views\Shared\" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
+    <None Remove="Views\Home\" />
+    <None Remove="Views\ShoppingCart\" />
+    <None Remove="Components\" />
+    <None Remove="Views\Shared\Components\" />
+    <None Remove="Views\Shared\Components\ShoppingCartSummary\" />
+    <None Remove="Views\Shared\Components\CategoryMenu\" />
+    <None Remove="Views\Contact\" />
+    <None Remove="TagHelpers\" />
+    <None Remove="Views\Order\" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Identity.UI" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -22,6 +33,15 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\Content\" />
+    <Folder Include="Views\Home\" />
+    <Folder Include="Views\ShoppingCart\" />
+    <Folder Include="Components\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shared\Components\ShoppingCartSummary\" />
+    <Folder Include="Views\Shared\Components\CategoryMenu\" />
+    <Folder Include="Views\Contact\" />
+    <Folder Include="TagHelpers\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\Content\" />
@@ -32,5 +52,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.22" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNet.DemoShop.Models;
+using dotNet.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,8 @@ namespace dotNet.DemoShop
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // services collection
+        // instances are created with addScoped() and can be used through constructor injection
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
@@ -37,7 +40,14 @@ namespace dotNet.DemoShop
             // Create an instance per request, which remains active throughout the entire request
             services.AddScoped<IPieRepository, PieRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-         
+            // invoke the GetCart() method on the ShoppingCart class for the user
+            // IServiceProvider
+            services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+            // bring in support for GetCart()
+            services.AddHttpContextAccessor();
+            services.AddSession();
+            services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,12 +62,18 @@ namespace dotNet.DemoShop
             app.UseHttpsRedirection();
             // middleware for serving static files and files in wwwroot
             app.UseStaticFiles();
+            // middleware to support session
+            // MUST called before routing
+            app.UseSession();
 
+
+            // convention-based routing
             app.UseRouting();
 
             // map an incoming request with an action on a controller
             app.UseEndpoints(endpoints =>
             {
+                // see https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-6.0
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{Id?}"

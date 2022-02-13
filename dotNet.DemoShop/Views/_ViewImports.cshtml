@@ -2,3 +2,6 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!-- automatically be known in all other views in the Views folder-->
 @using dotNet.DemoShop.ViewModels
+@using dotNet.DemoShop.Models
+<!-- import the contact taghelper-->
+@addTagHelper dotNet.DemoShop.TagHelpers.*, dotNet.DemoShop

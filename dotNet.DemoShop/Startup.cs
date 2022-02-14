@@ -7,6 +7,7 @@ using dotNet.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,8 +35,10 @@ namespace dotNet.DemoShop
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 );
-            // add all the services will be used in the application
-            services.AddControllersWithViews();
+
+            /* bring in basic functionality for working with Identity -> Indicate Identity needs 
+               Entity Framework to store its data */
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
             // method to register a service with its interfaces into the services collection
             // Create an instance per request, which remains active throughout the entire request
             services.AddScoped<IPieRepository, PieRepository>();
@@ -46,7 +49,11 @@ namespace dotNet.DemoShop
             // bring in support for GetCart()
             services.AddHttpContextAccessor();
             services.AddSession();
+            // add all the services will be used in the application
             services.AddControllersWithViews();
+            // add support for Razor Pages
+            services.AddRazorPages();
+
 
         }
 
@@ -69,6 +76,11 @@ namespace dotNet.DemoShop
 
             // convention-based routing
             app.UseRouting();
+            // enable to use ASP.NET Core Identity
+            // Register/Login/Logout functions
+            app.UseAuthentication();
+            // Must login or have the access right before accessing to certain pages
+            app.UseAuthorization();
 
             // map an incoming request with an action on a controller
             app.UseEndpoints(endpoints =>
@@ -76,8 +88,10 @@ namespace dotNet.DemoShop
                 // see https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-6.0
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{Id?}"
-                );
+                    pattern: "{controller=Home}/{action=Index}/{Id?}");
+                // add endpoint for Razor Page
+                endpoints.MapRazorPages();
+                
             });
         }
     }

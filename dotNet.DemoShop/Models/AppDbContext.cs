@@ -1,9 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotNet.DemoShop.Models
 {
-    public class AppDbContext: DbContext
+    // IdentityUser is a built-in class can be used to represent a user in Identity
+    public class AppDbContext: IdentityDbContext<IdentityUser>
     {
         // must have an instance of DbContextOptions to execute
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
